@@ -71,7 +71,7 @@ Row {
         }
     }
 
-    Keys.onPressed: {
+    Keys.onPressed: event => {
         if (api.keys.isAccept(event) && !event.isAutoRepeat) {
             event.accepted = true;
             checked = !checked;

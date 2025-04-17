@@ -15,8 +15,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-import QtQuick 2.6
-import QtMultimedia 5.9
+import QtQuick
+import QtMultimedia
 
 
 Item {
@@ -170,7 +170,7 @@ Item {
             asynchronous: true
         }
 
-        Video {
+        /*Video {
             id: videoPreview
             visible: playlist.itemCount > 0 && opacity > 0
             opacity: 0
@@ -190,6 +190,6 @@ Item {
                 from: ""; to: "playing"
                 NumberAnimation { properties: 'opacity'; duration: 1000 }
             }
-        }
+        }*/
     }
 }

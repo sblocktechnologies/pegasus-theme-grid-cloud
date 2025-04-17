@@ -16,7 +16,6 @@
 
 
 import QtQuick 2.0
-import QtGraphicalEffects 1.0
 
 Item {
     property var game
@@ -79,7 +78,7 @@ Item {
         smooth: false
     }
 
-    LinearGradient {
+    Rectangle {
         z: parent.z + 1
         width: parent.width * 0.75
         anchors {
@@ -87,8 +86,6 @@ Item {
             right: parent.right
             bottom: parent.bottom
         }
-        start: Qt.point(0, 0)
-        end: Qt.point(width, 0)
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#00000000" }
             GradientStop { position: 0.5; color: "#cc000000" }

@@ -16,7 +16,7 @@
 
 
 import QtQuick 2.0
-import QtGraphicalEffects 1.0
+import QtQuick.Effects
 
 Item {
     width: img.width
@@ -34,9 +34,10 @@ Item {
         height: width
     }
 
-    ColorOverlay {
+    MultiEffect {
         anchors.fill: img
         source: img
-        color: "#d22"
+        colorization: 1.0
+        colorizationColor: "#d22"
     }
 }

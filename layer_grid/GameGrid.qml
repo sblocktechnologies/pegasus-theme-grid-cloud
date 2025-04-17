@@ -60,7 +60,7 @@ FocusScope {
         anchors.rightMargin: root.gridMarginRight
         anchors.bottom: parent.bottom
 
-        Keys.onPressed: {
+        Keys.onPressed: event => {
             if (event.isAutoRepeat)
                 return;
 
@@ -131,7 +131,7 @@ FocusScope {
                 GridView.view.currentIndex = index;
                 root.detailsRequested();
             }
-            Keys.onPressed: {
+            Keys.onPressed: event => {
                 if (api.keys.isAccept(event) && !event.isAutoRepeat) {
                     root.launchRequested();
                 }

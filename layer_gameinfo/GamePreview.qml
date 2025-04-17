@@ -33,7 +33,7 @@ FocusScope {
 
     visible: game
 
-    Keys.onPressed: {
+    Keys.onPressed: event => {
         if (event.isAutoRepeat)
             return;
 

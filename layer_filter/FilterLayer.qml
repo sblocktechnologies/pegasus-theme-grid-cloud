@@ -28,7 +28,7 @@ FocusScope {
 
     signal closeRequested
 
-    Keys.onPressed: {
+    Keys.onPressed: event => {
         if (event.isAutoRepeat)
             return;
 
