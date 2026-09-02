@@ -113,6 +113,31 @@ Item {
         anchors.margins: vpx(-5)
     }
 
+    Rectangle {
+        visible: game.cloudBacked
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.margins: vpx(6)
+        width: cloudLabel.width + vpx(14)
+        height: cloudLabel.height + vpx(8)
+        radius: height / 2
+        color: game.cloudState === "cached" ? "#168a55"
+             : game.cloudState === "downloading" ? "#147bd1"
+             : game.cloudState === "error" ? "#bb3b3b" : "#333c46"
+        border { color: "#ccffffff"; width: 1 }
+        z: 5
+
+        Text {
+            id: cloudLabel
+            anchors.centerIn: parent
+            text: game.cloudState === "cached" ? "READY"
+                : game.cloudState === "downloading" ? Math.round(game.cloudProgress * 100) + "%"
+                : game.cloudState === "error" ? "RETRY" : "CLOUD"
+            color: "white"
+            font { pixelSize: vpx(10); bold: true; family: globalFonts.sans }
+        }
+    }
+
     MouseArea {
         anchors.fill: parent
         onClicked: root.clicked()

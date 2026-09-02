@@ -162,7 +162,7 @@ Item {
             }
 
             KeyNavigation.up: launchBtn
-            KeyNavigation.down: launchBtn
+            KeyNavigation.down: cacheBtn.visible ? cacheBtn : launchBtn
             Keys.onPressed: {
                 if (api.keys.isAccept(event) && !event.isAutoRepeat) {
                     event.accepted = true;
@@ -197,20 +197,70 @@ Item {
             }
         }
         GamePanelButton {
-            id: launchBtn
-            text: "Launch"
-            lineHeight: 2.5
+            id: cacheBtn
+            visible: (game && game.cloudBacked
+                      && (game.cloudState === "cached" || game.cloudState === "downloading")) || false
+            property bool confirmDelete: false
+            text: game && game.cloudState === "downloading" ? "Cancel download"
+                : confirmDelete ? "Press again to confirm deletion" : "Delete downloaded ROM"
 
-            focus: true
+            Timer {
+                id: confirmDeleteTimer
+                interval: 3000
+                onTriggered: cacheBtn.confirmDelete = false
+            }
+
+            KeyNavigation.up: toggleFavBtn
+            KeyNavigation.down: launchBtn
+            function performAction() {
+                if (!game) return;
+                if (game.cloudState === "downloading") {
+                    game.cancelCloudDownload();
+                    launchBtn.focus = true;
+                }
+                else if (!confirmDelete) {
+                    confirmDelete = true;
+                    confirmDeleteTimer.restart();
+                }
+                else {
+                    game.deleteCloudCache();
+                    confirmDelete = false;
+                    launchBtn.focus = true;
+                }
+            }
             Keys.onPressed: {
                 if (api.keys.isAccept(event) && !event.isAutoRepeat) {
                     event.accepted = true;
-                    launchRequested();
+                    performAction();
+                }
+            }
+            onClicked: { focus = true; performAction(); }
+        }
+        GamePanelButton {
+            id: launchBtn
+            text: {
+                if (!game || !game.cloudBacked) return "Launch";
+                if (game.cloudState === "downloading") return "Downloading… " + Math.round(game.cloudProgress * 100) + "%";
+                if (game.cloudState === "error") return "Retry download & launch";
+                if (game.cloudState === "remote") return "Download & launch";
+                return "Launch";
+            }
+            lineHeight: 2.5
+
+            focus: true
+            KeyNavigation.up: cacheBtn.visible ? cacheBtn : toggleFavBtn
+            KeyNavigation.down: toggleFavBtn
+            Keys.onPressed: {
+                if (api.keys.isAccept(event) && !event.isAutoRepeat) {
+                    event.accepted = true;
+                    if (!game || game.cloudState !== "downloading")
+                        launchRequested();
                 }
             }
             onClicked: {
                 focus = true;
-                launchRequested();
+                if (!game || game.cloudState !== "downloading")
+                    launchRequested();
             }
         }
     }

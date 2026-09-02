@@ -125,12 +125,57 @@ Item {
         visible: text
     }
 
+    Item {
+        id: cloudStatus
+        width: parent.width
+        height: visible ? vpx(game && game.cloudState === "error" ? 62 : 38) : 0
+        anchors.top: releaseDetails.bottom
+        visible: (game && game.cloudBacked) || false
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: vpx(3)
+            radius: vpx(5)
+            color: game && game.cloudState === "cached" ? "#263e32"
+                 : game && game.cloudState === "error" ? "#4b2828" : "#253746"
+            border.color: game && game.cloudState === "error" ? "#e36a6a" : "#4ae"
+
+            Text {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: vpx(8) }
+                color: "#eee"
+                elide: Text.ElideRight
+                text: {
+                    if (!game) return "";
+                    if (game.cloudState === "cached") return "✓ Downloaded • " + formatBytes(game.cloudSize);
+                    if (game.cloudState === "downloading") return "Downloading… " + Math.round(game.cloudProgress * 100) + "%";
+                    if (game.cloudState === "error") return "Download failed: " + game.cloudError;
+                    return "☁ Available from Mac mini • " + formatBytes(game.cloudSize);
+                }
+                font { pixelSize: vpx(14); family: globalFonts.sans }
+            }
+
+            Rectangle {
+                visible: game && game.cloudState === "downloading"
+                anchors { left: parent.left; right: parent.right; bottom: parent.bottom; margins: vpx(7) }
+                height: vpx(4)
+                color: "#53616c"
+                radius: height / 2
+                Rectangle {
+                    width: parent.width * ((game && game.cloudProgress) || 0)
+                    height: parent.height
+                    radius: parent.radius
+                    color: "#4ae"
+                }
+            }
+        }
+    }
+
     Text {
         id: summary
         width: parent.width
         wrapMode: Text.WordWrap
 
-        anchors.top: releaseDetails.bottom
+        anchors.top: cloudStatus.bottom
         topPadding: vpx(20)
         bottomPadding: vpx(40)
 
@@ -144,6 +189,13 @@ Item {
         elide: Text.ElideRight
 
         visible: text
+    }
+
+    function formatBytes(bytes) {
+        if (!bytes) return "unknown size";
+        if (bytes >= 1073741824) return (bytes / 1073741824).toFixed(1) + " GB";
+        if (bytes >= 1048576) return (bytes / 1048576).toFixed(1) + " MB";
+        return Math.round(bytes / 1024) + " KB";
     }
 
     Rectangle {
