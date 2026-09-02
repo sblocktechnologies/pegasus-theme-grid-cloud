@@ -77,17 +77,18 @@ Rectangle {
         preferredHighlightEnd: 0.5
     }
 
-    MouseArea {
-        anchors.fill: parent
-        onWheel: {
-            wheel.accepted = true;
-            if (wheel.angleDelta.x > 0 || wheel.angleDelta.y > 0) root.prev();
-            else root.next();
-        }
-    }
     PegasusUtils.HorizontalSwipeArea {
         anchors.fill: parent
         onSwipeLeft: root.next()
         onSwipeRight: root.prev()
+        onClicked: mouse => {
+            if (mouse.x < width / 2) root.prev();
+            else root.next();
+        }
+        onWheel: wheel => {
+            wheel.accepted = true;
+            if (wheel.angleDelta.x > 0 || wheel.angleDelta.y > 0) root.prev();
+            else root.next();
+        }
     }
 }

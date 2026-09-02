@@ -22,29 +22,6 @@ import QtMultimedia
 Item {
     property var game
 
-    onGameChanged: {
-        videoPreview.state = "";
-        videoPreview.stop();
-        videoPreview.playlist.clear();
-        videoDelay.restart();
-    }
-
-    // a small delay to avoid loading videos during scrolling
-    Timer {
-        id: videoDelay
-        interval: 300
-        onTriggered: {
-            if (game && game.assets.videos.length > 0) {
-                for (var i = 0; i < game.assets.videos.length; i++)
-                    videoPreview.playlist.addItem(game.assets.videos[i]);
-
-                videoPreview.play();
-                videoPreview.state = "playing";
-            }
-        }
-    }
-
-
     Image {
         id: logo
         width: parent.width
@@ -209,10 +186,10 @@ Item {
         width: parent.width
         radius: vpx(4)
 
-        visible: (game && (game.assets.videos.length || game.assets.screenshots.length)) || false
+        visible: (game && game.assets.screenshots.length) || false
 
         Image {
-            visible: !videoPreview.visible || videoPreview.opacity < 0.99
+            visible: true
 
             anchors { fill: parent; margins: 1 }
             fillMode: Image.PreserveAspectFit
