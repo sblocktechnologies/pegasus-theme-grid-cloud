@@ -15,8 +15,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-import QtQuick 2.6
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Effects
 import "qrc:/qmlutils" as PegasusUtils
 
 
@@ -163,7 +163,7 @@ Item {
 
             KeyNavigation.up: launchBtn
             KeyNavigation.down: cacheBtn.visible ? cacheBtn : launchBtn
-            Keys.onPressed: {
+            Keys.onPressed: event => {
                 if (api.keys.isAccept(event) && !event.isAutoRepeat) {
                     event.accepted = true;
                     toggleFav();
@@ -190,10 +190,11 @@ Item {
                 visible: false
             }
 
-            ColorOverlay {
+            MultiEffect {
                 anchors.fill: favHeart
                 source: favHeart
-                color: parent.focus ? "#eee" : "#666"
+                colorization: 1.0
+                colorizationColor: parent.focus ? "#eee" : "#666"
             }
         }
         GamePanelButton {
@@ -228,7 +229,7 @@ Item {
                     launchBtn.focus = true;
                 }
             }
-            Keys.onPressed: {
+            Keys.onPressed: event => {
                 if (api.keys.isAccept(event) && !event.isAutoRepeat) {
                     event.accepted = true;
                     performAction();
