@@ -109,7 +109,7 @@ FocusScope {
         displayMarginBeginning: anchors.topMargin
 
         highlight: Rectangle {
-            color: "#0074da"
+            color: "transparent"
             width: grid.cellWidth
             height: grid.cellHeight
             scale: 1.20

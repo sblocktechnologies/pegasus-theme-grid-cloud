@@ -36,7 +36,14 @@ Item {
     z: selected ? 3 : 1
 
 
-    Behavior on scale { PropertyAnimation { duration: 150 } }
+    Behavior on scale { PropertyAnimation { duration: 180; easing.type: Easing.OutCubic } }
+
+    Rectangle {
+        anchors { fill: parent; margins: vpx(3) }
+        radius: vpx(8)
+        color: selected ? "#162b3b" : "#101820"
+        border { color: selected ? "#42c8ff" : "#26333d"; width: selected ? vpx(2) : 1 }
+    }
 
     Image {
         id: boxFront

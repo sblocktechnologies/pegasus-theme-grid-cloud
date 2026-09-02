@@ -107,6 +107,35 @@ FocusScope {
         onLaunchRequested: launchGame()
     }
 
+    Row {
+        id: touchActions
+        visible: gamegrid.currentGame && gamegrid.focus
+        anchors { right: parent.right; rightMargin: vpx(22); bottom: parent.bottom; bottomMargin: vpx(22) }
+        spacing: vpx(10)
+        z: 250
+
+        Rectangle {
+            width: vpx(148); height: vpx(46); radius: height / 2
+            color: "#182733"; border { color: "#5d7180"; width: 1 }
+            Text { anchors.centerIn: parent; text: "DETAILS"; color: "#dce8ef"; font { bold: true; pixelSize: vpx(13); letterSpacing: 1; family: globalFonts.sans } }
+            MouseArea { anchors.fill: parent; onClicked: gamepreview.focus = true }
+        }
+        Rectangle {
+            width: vpx(188); height: vpx(46); radius: height / 2
+            gradient: Gradient {
+                GradientStop { position: 0; color: "#42c8ff" }
+                GradientStop { position: 1; color: "#3976ff" }
+            }
+            Text {
+                anchors.centerIn: parent
+                text: gamegrid.currentGame && gamegrid.currentGame.cloudState === "remote" ? "DOWNLOAD & PLAY" : "PLAY"
+                color: "white"
+                font { bold: true; pixelSize: vpx(13); letterSpacing: 1; family: globalFonts.sans }
+            }
+            MouseArea { anchors.fill: parent; onClicked: launchGame() }
+        }
+    }
+
     FilterLayer {
         id: filter
         anchors.fill: parent

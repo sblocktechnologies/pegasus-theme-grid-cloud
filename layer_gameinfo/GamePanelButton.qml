@@ -26,7 +26,7 @@ Rectangle {
     property alias text: label.text
     property double lineHeight: 1.75
 
-    color: focus ? "#4ae" : (mouseArea.containsMouse ? "#999" : "#aaa")
+    color: focus ? "#249bd0" : (mouseArea.containsMouse ? "#243746" : "#18242e")
     width: parent.width
     height: label.height * lineHeight
     radius: vpx(3)
@@ -42,7 +42,7 @@ Rectangle {
 
     Text {
         id: label
-        color: root.focus ? "#eee" : "#666"
+        color: root.focus ? "#fff" : "#b9c7d1"
         font {
             pixelSize: vpx(18)
             family: globalFonts.sans
